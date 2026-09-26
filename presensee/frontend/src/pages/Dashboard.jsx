@@ -2,7 +2,7 @@ import DashboardLayout from "../layouts/DashboardLayout"
 import { useEffect, useState } from "react"
 import api from "../services/api"
 import { getUsuario, getToken } from "../services/auth"
-
+import { MascotAvatar } from "../components/Icons"
 function Dashboard() {
 
   const [dados, setDados] = useState(null)
@@ -216,7 +216,7 @@ function Dashboard() {
 
               ) : (
 
-                "👨‍💻"
+                <MascotAvatar size={38} />
 
               )}
 
