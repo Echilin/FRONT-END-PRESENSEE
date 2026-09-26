@@ -21,170 +21,129 @@ function Login() {
     e.preventDefault()
 
     if (email === "" || senha === "") {
-
       setErro("Preencha todos os campos")
-
       return
-
     }
-
 
     try {
 
       const response = await api.post("/auth/login", {
-
         email: email,
         senha: senha
-
       })
 
-
-      localStorage.setItem(
-        "token",
-        response.data.token
-      )
-
+      localStorage.setItem("token", response.data.token)
 
       navigate("/dashboard")
 
     }
 
-
     catch (error) {
-
       console.log(error)
-
       setErro("Email ou senha inválidos")
-
     }
 
   }
 
 
-return (
+  return (
 
-  <div className="login-container">
+    <div className="login-container">
 
+      {/* BOLHAS DECORATIVAS DE FUNDO */}
+      <div className="login-blob login-blob-1" />
+      <div className="login-blob login-blob-2" />
+      <div className="login-blob login-blob-3" />
 
-    <img
-      className="login-background"
-      src={imagemLogin}
-      alt="PresenSee"
-    />
+      <img
+        className="login-background"
+        src={imagemLogin}
+        alt="PresenSee"
+      />
 
+      <span className="login-badge">
+        Tecnologia para permanência escolar
+      </span>
 
-    <div className="login-card">
+      <div className="login-card">
 
+        <h1 className="brand-font">
+          Conecte-<span>se</span>
+        </h1>
 
-      <h1>
-        Login
-      </h1>
-
-
-      <form onSubmit={handleLogin}>
-
-
-        <label>
-          Email
-        </label>
-
-
-        <input
-          className="login-input"
-          type="email"
-          placeholder="Digite seu email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-
-        <label>
-          Senha
-        </label>
-
-
-        <input
-          className="login-input"
-          type={mostrarSenha ? "text" : "password"}
-          placeholder="Digite sua senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        />
-
-
-        <p
-          className="show-password"
-          onClick={() => setMostrarSenha(!mostrarSenha)}
-        >
-
-          {mostrarSenha
-            ? "Ocultar senha"
-            : "Mostrar senha"
-          }
-
+        <p className="login-subtitle">
+          Acesse o painel de acompanhamento da sua escola.
         </p>
 
+        <form onSubmit={handleLogin}>
 
-        {
-          erro && (
+          <label>Email</label>
 
-            <p className="error-message">
-              {erro}
-            </p>
+          <input
+            className="login-input"
+            type="email"
+            placeholder="Digite seu email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-          )
-        }
+          <label>Senha</label>
 
+          <input
+            className="login-input"
+            type={mostrarSenha ? "text" : "password"}
+            placeholder="Digite sua senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
 
-        <button
-          className="login-button"
-          type="submit"
-        >
+          <p
+            className="show-password"
+            onClick={() => setMostrarSenha(!mostrarSenha)}
+          >
+            {mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+          </p>
 
-          Entrar
+          {erro && (
+            <p className="error-message">{erro}</p>
+          )}
 
-         </button>
+          <button className="login-button" type="submit">
+            Entrar
+          </button>
 
-      <button
-  type="button"
-  className="create-account"
-  onClick={() => {
-    localStorage.setItem("token", "token-demo")
+          <button
+            type="button"
+            className="create-account"
+            onClick={() => {
+              localStorage.setItem("token", "token-demo")
 
-    localStorage.setItem(
-      "usuario",
-      JSON.stringify({
-        nome: "Visitante",
-        perfil: "Demonstração"
-      })
-    )
+              localStorage.setItem(
+                "usuario",
+                JSON.stringify({
+                  nome: "Visitante",
+                  perfil: "Demonstração"
+                })
+              )
 
-    navigate("/dashboard")
-  }}
->
-  Entrar como visitante
-</button>
+              navigate("/dashboard")
+            }}
+          >
+            Entrar como visitante
+          </button>
 
+          <p className="login-info-text">
+            Contas disponibilizadas pela
+            administração escolar.
+          </p>
 
+        </form>
 
-
-        <p className="login-info-text">
-
-          Contas disponibilizadas pela
-          administração escolar.
-
-        </p>
-
-
-      </form>
-
+      </div>
 
     </div>
 
-
-  </div>
-
-)
+  )
 
 }
 

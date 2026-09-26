@@ -1,6 +1,31 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { useRef, useState } from "react"
 import { getUsuario, logout } from "../services/auth"
+import "../styles/Sidebar.css"
+
+import {
+  IconHome,
+  IconAlunos,
+  IconAlertas,
+  IconDiario,
+  IconIntervencao,
+  IconTurma,
+  IconRelatorio,
+  IconLogout,
+  IconCollapse,
+  IconCamera,
+  MascotAvatar,
+} from "./Icons"
+
+const MENU = [
+  { to: "/dashboard", label: "Home", Icon: IconHome },
+  { to: "/alunos", label: "Alunos", Icon: IconAlunos },
+  { to: "/alertas", label: "Alertas", Icon: IconAlertas },
+  { to: "/frequencia", label: "Diário do monitor", Icon: IconDiario },
+  { to: "/novo-aluno", label: "Intervenção", Icon: IconIntervencao },
+  { to: "/turmas", label: "Turma", Icon: IconTurma },
+  { to: "/relatorios", label: "Relatório", Icon: IconRelatorio },
+]
 
 function Sidebar() {
 
@@ -11,18 +36,24 @@ function Sidebar() {
     localStorage.getItem("avatarUsuario") || ""
   )
 
+  const [collapsed, setCollapsed] = useState(
+    localStorage.getItem("sidebarCollapsed") === "true"
+  )
+
   const inputAvatar = useRef(null)
 
   function handleLogout() {
-
     logout()
-
     navigate("/login")
+  }
 
+  function alternarColapso() {
+    const novoValor = !collapsed
+    setCollapsed(novoValor)
+    localStorage.setItem("sidebarCollapsed", String(novoValor))
   }
 
   function escolherAvatar(e) {
-
     const arquivo = e.target.files[0]
 
     if (!arquivo) {
@@ -32,86 +63,51 @@ function Sidebar() {
     const leitor = new FileReader()
 
     leitor.onload = () => {
-
       const imagem = leitor.result
-
       setAvatar(imagem)
-
-      localStorage.setItem(
-        "avatarUsuario",
-        imagem
-      )
-
+      localStorage.setItem("avatarUsuario", imagem)
     }
 
     leitor.readAsDataURL(arquivo)
-
   }
 
-
   return (
+    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
 
-    <aside className="sidebar">
+      {/* LOGO + BOTÃO DE COLAPSAR */}
 
+      <div className="sidebar-top">
 
-      {/* LOGO */}
+        <div className="sidebar-logo">
+          {!collapsed && (
+            <h2 className="brand-font">
+              Presen<span>See</span>
+            </h2>
+          )}
+        </div>
 
-      <div className="sidebar-logo">
-
-        <h2>
-          Presen<span>See</span>
-        </h2>
+        <button
+          className="collapse-toggle"
+          onClick={alternarColapso}
+          title={collapsed ? "Expandir menu" : "Encolher menu"}
+        >
+          <IconCollapse collapsed={collapsed} />
+        </button>
 
       </div>
-
 
       {/* MENU */}
 
       <nav className="sidebar-menu">
 
-        <NavLink to="/dashboard">
-          <span>⌂</span>
-          Home
-        </NavLink>
-
-
-        <NavLink to="/alunos">
-          <span>♙</span>
-          Alunos
-        </NavLink>
-
-
-        <NavLink to="/alertas">
-          <span>⚑</span>
-          Alertas
-        </NavLink>
-
-
-        <NavLink to="/frequencia">
-          <span>◉</span>
-          Diário do monitor
-        </NavLink>
-
-
-        <NavLink to="/novo-aluno">
-          <span>✚</span>
-          Intervenção
-        </NavLink>
-
-
-        <NavLink to="/turmas">
-          <span>♧</span>
-          Turma
-        </NavLink>
-
-
-        <NavLink to="/relatorios">
-          <span>▣</span>
-          Relatório
-        </NavLink>
+        {MENU.map(({ to, label, Icon }) => (
+          <NavLink key={to} to={to} title={collapsed ? label : undefined}>
+            <Icon />
+            {!collapsed && <span className="menu-label">{label}</span>}
+          </NavLink>
+        ))}
 
       </nav>
-
 
       {/* USUÁRIO */}
 
@@ -122,18 +118,14 @@ function Sidebar() {
           onClick={() => inputAvatar.current.click()}
           title="Alterar foto"
         >
-
           {avatar ? (
-            <img
-              src={avatar}
-              alt="Foto do usuário"
-            />
+            <img src={avatar} alt="Foto do usuário" />
           ) : (
-            "👨‍💻"
+            <MascotAvatar size={34} />
           )}
 
           <span className="avatar-camera">
-            📷
+            <IconCamera />
           </span>
 
           <input
@@ -143,45 +135,30 @@ function Sidebar() {
             onChange={escolherAvatar}
             style={{ display: "none" }}
           />
-
         </div>
 
-
-        <div>
-
-          <strong>
-            {usuario?.nome || "Marcos A."}
-          </strong>
-
-          <span>
-            Monitor
-          </span>
-
-        </div>
+        {!collapsed && (
+          <div>
+            <strong>{usuario?.nome || "Marcos A."}</strong>
+            <span>Monitor</span>
+          </div>
+        )}
 
       </div>
-
 
       {/* SAIR */}
 
       <button
         className="logout-button"
         onClick={handleLogout}
+        title="Encerrar Sessão"
       >
-
-        ↪
-
-        <span>
-          Encerrar Sessão
-        </span>
-
+        <IconLogout />
+        {!collapsed && <span>Encerrar Sessão</span>}
       </button>
 
-
     </aside>
-
   )
-
 }
 
 export default Sidebar
