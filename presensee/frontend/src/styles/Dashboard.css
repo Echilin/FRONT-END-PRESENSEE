@@ -32,15 +32,19 @@
 
 
 
-.dashboard-page {
+.dashboard-page 
 
+  {
   width: 100%;
-
-  max-width: 1250px;
-
+  max-width: 1500px;
   margin: 0 auto;
-
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+
 
 
 /* =========================
