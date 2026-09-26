@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom"
 import api from "../services/api"
 import "../styles/Login.css"
 
-import imagemLogin from "../assets/login.jpg"
-
 
 function Login() {
 
@@ -46,98 +44,136 @@ function Login() {
   }
 
 
+  function entrarComoVisitante() {
+
+    localStorage.setItem("token", "token-demo")
+
+    localStorage.setItem(
+      "usuario",
+      JSON.stringify({
+        nome: "Visitante",
+        perfil: "Demonstração"
+      })
+    )
+
+    navigate("/dashboard")
+
+  }
+
+
   return (
 
-    <div className="login-container">
+    <div className="login-page">
 
-      {/* BOLHAS DECORATIVAS DE FUNDO */}
-      <div className="login-blob login-blob-1" />
-      <div className="login-blob login-blob-2" />
-      <div className="login-blob login-blob-3" />
+      {/* FUNDO */}
+      <div className="login-blob-bg blob-a" />
+      <div className="login-blob-bg blob-b" />
+       <div className="login-blob-bg blob-a" />
+<div className="login-blob-bg blob-a" />
+<div className="login-blob-bg blob-b" />
+<div className="login-shape shape-fill-1" />
+<div className="login-shape shape-fill-2" />
+<div className="login-shape shape-ring" />
+<div className="login-shape shape-outline" />
+      {/* LOGO */}
+      <div className="login-topbar">
+        <span className="login-ring-deco" />
+        <h2 className="brand-font login-logo">
+          Presen<span>See</span>
+        </h2>
+      </div>
 
-      <img
-        className="login-background"
-        src={imagemLogin}
-        alt="PresenSee"
-      />
+      <div className="login-panels">
 
-      <span className="login-badge">
-        Tecnologia para permanência escolar
-      </span>
+        {/* PAINEL DE RECONHECIMENTO FACIAL */}
+        <div className="scan-panel">
 
-      <div className="login-card">
+          <div className="scan-frame">
 
-        <h1 className="brand-font">
-          Conecte-<span>se</span>
-        </h1>
+            <span className="scan-corner corner-tl" />
+            <span className="scan-corner corner-tr" />
+            <span className="scan-corner corner-bl" />
+            <span className="scan-corner corner-br" />
 
-        <p className="login-subtitle">
-          Acesse o painel de acompanhamento da sua escola.
-        </p>
+            <div className="scan-face">
+              <span className="scan-eye" />
+              <span className="scan-eye" />
+              <span className="scan-smile" />
+            </div>
 
-        <form onSubmit={handleLogin}>
+            <div className="scan-line" />
 
-          <label>Email</label>
+          </div>
 
-          <input
-            className="login-input"
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <h3>Cada presença importa, cada futuro também.</h3>
+          <p>validando presença em tempo real</p>
 
-          <label>Senha</label>
+          <div className="scan-badge">
+            <span className="scan-dot" />
+            <b> presente.</b>
+          </div>
 
-          <input
-            className="login-input"
-            type={mostrarSenha ? "text" : "password"}
-            placeholder="Digite sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
+        </div>
 
-          <p
-            className="show-password"
-            onClick={() => setMostrarSenha(!mostrarSenha)}
-          >
-            {mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+        {/* CARTÃO DE LOGIN */}
+        <div className="login-card">
+
+          <h1 className="brand-font">
+            Conecte-<span>se</span>
+          </h1>
+
+          <p className="login-subtitle">
+            Acesse o painel de presença da sua turma.
           </p>
 
-          {erro && (
-            <p className="error-message">{erro}</p>
-          )}
+          <form onSubmit={handleLogin}>
 
-          <button className="login-button" type="submit">
-            Entrar
-          </button>
+            <label>Email</label>
 
-          <button
-            type="button"
-            className="create-account"
-            onClick={() => {
-              localStorage.setItem("token", "token-demo")
+            <input
+              className="login-input"
+              type="email"
+              placeholder="email@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-              localStorage.setItem(
-                "usuario",
-                JSON.stringify({
-                  nome: "Visitante",
-                  perfil: "Demonstração"
-                })
-              )
+            <label>Senha</label>
 
-              navigate("/dashboard")
-            }}
-          >
-            Entrar como visitante
-          </button>
+            <input
+              className="login-input"
+              type={mostrarSenha ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
 
-          <p className="login-info-text">
-            Contas disponibilizadas pela
-            administração escolar.
-          </p>
+            <p
+              className="show-password"
+              onClick={() => setMostrarSenha(!mostrarSenha)}
+            >
+              {mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+            </p>
 
-        </form>
+            {erro && (
+              <p className="error-message">{erro}</p>
+            )}
+
+            <button className="login-button" type="submit">
+              Entrar
+            </button>
+
+            <button
+              type="button"
+              className="create-account"
+              onClick={entrarComoVisitante}
+            >
+              Entrar como visitante
+            </button>
+
+          </form>
+
+        </div>
 
       </div>
 

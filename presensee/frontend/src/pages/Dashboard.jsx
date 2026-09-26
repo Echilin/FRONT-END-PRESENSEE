@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import api from "../services/api"
 import { getUsuario, getToken } from "../services/auth"
 import { MascotAvatar } from "../components/Icons"
+
 function Dashboard() {
 
   const [dados, setDados] = useState(null)
@@ -183,29 +184,13 @@ function Dashboard() {
 
         <div className="dashboard-header">
 
+          <div className="dashboard-header-left">
 
-          <div>
-
-            <h1>
-              E aí, {usuario?.nome || "Visitante"}!
-            </h1>
-
-            <p>
-              Acompanhamento - Visão Geral
-            </p>
-
-          </div>
-
-
-          {/* USUÁRIO NO TOPO */}
-
-          <div
-            className="dashboard-user"
-            onClick={atualizarAvatar}
-            title="Foto do usuário"
-          >
-
-            <div className="dashboard-avatar">
+            <div
+              className="dashboard-avatar"
+              onClick={atualizarAvatar}
+              title="Foto do usuário"
+            >
 
               {avatar ? (
 
@@ -223,20 +208,19 @@ function Dashboard() {
             </div>
 
 
-            <div className="dashboard-user-info">
+            <div>
 
-              <strong>
-                {usuario?.nome || "Visitante"}
-              </strong>
+              <h1>
+                E aí, {usuario?.nome || "Visitante"}!
+              </h1>
 
-              <span>
-                Monitor
-              </span>
+              <p>
+                Acompanhamento - Visão Geral
+              </p>
 
             </div>
 
           </div>
-
 
         </div>
 
