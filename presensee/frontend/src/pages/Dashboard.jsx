@@ -2,7 +2,7 @@ import DashboardLayout from "../layouts/DashboardLayout"
 import { useEffect, useState } from "react"
 import api from "../services/api"
 import { getUsuario, getToken } from "../services/auth"
-import { MascotAvatar } from "../components/Icons"
+import { MascotAvatar, IconAlunos, IconAlertas } from "../components/Icons"
 import {
   LineChart,
   Line,
@@ -28,6 +28,8 @@ function Dashboard() {
   const [carregando, setCarregando] = useState(true)
 
   const [erro, setErro] = useState("")
+
+  const [gaugeValue, setGaugeValue] = useState(0)
 
 
   const alertas = [
@@ -148,6 +150,43 @@ function Dashboard() {
   }, [])
 
 
+  // Anima o número do gauge contando de 0 até o valor real
+  useEffect(() => {
+
+    if (dados?.taxaFrequenciaGeral == null) {
+      return
+    }
+
+    const valorFinal = dados.taxaFrequenciaGeral
+
+    let valorAtual = 0
+
+    const duracao = 900
+    const intervaloPasso = 16
+    const totalPassos = duracao / intervaloPasso
+    const incremento = valorFinal / totalPassos
+
+    const timer = setInterval(() => {
+
+      valorAtual += incremento
+
+      if (valorAtual >= valorFinal) {
+
+        valorAtual = valorFinal
+
+        clearInterval(timer)
+
+      }
+
+      setGaugeValue(Math.round(valorAtual))
+
+    }, intervaloPasso)
+
+    return () => clearInterval(timer)
+
+  }, [dados?.taxaFrequenciaGeral])
+
+
   function atualizarAvatar() {
 
     setAvatar(
@@ -194,7 +233,7 @@ function Dashboard() {
 
 
   const frequenciaGauge = [
-    { value: dados?.taxaFrequenciaGeral || 0, fill: "#ffc66d" }
+    { value: gaugeValue, fill: "#22c55e" }
   ]
 
 
@@ -241,10 +280,6 @@ function Dashboard() {
                 E aí, {usuario?.nome || "Visitante"}!
               </h1>
 
-              <p>
-                Acompanhamento - Visão Geral
-              </p>
-
             </div>
 
           </div>
@@ -261,6 +296,10 @@ function Dashboard() {
 
           <div className="dashboard-card">
 
+            <div className="dashboard-card-icon">
+              <IconAlunos />
+            </div>
+
             <strong>
               {dados?.totalAlunos}
             </strong>
@@ -273,6 +312,10 @@ function Dashboard() {
 
 
           <div className="dashboard-card attention">
+
+            <div className="dashboard-card-icon">
+              <IconAlertas />
+            </div>
 
             <strong>
               {dados?.alunosRisco}
@@ -287,6 +330,10 @@ function Dashboard() {
 
           <div className="dashboard-card danger">
 
+            <div className="dashboard-card-icon">
+              <IconAlertas />
+            </div>
+
             <strong>
               {dados?.alunosAltoRisco}
             </strong>
@@ -298,29 +345,26 @@ function Dashboard() {
           </div>
 
 
-          <div className="dashboard-card success">
-
-            <strong>
-              {dados?.taxaFrequenciaGeral}%
-            </strong>
-
-            <span>
-              Frequência Geral
-            </span>
-
-          </div>
-
-
         </div>
+
+
+        {/* =========================
+            TÍTULO DA SEÇÃO
+        ========================= */}
+
+        <h2 className="section-title">
+          Visão Geral
+        </h2>
 
 
         {/* =========================
             GRÁFICO + GAUGE
         ========================= */}
 
-        <div className="risk-chart-card">
+        <div className="dashboard-charts-row">
 
-          <div className="risk-chart-main">
+
+          <div className="risk-chart-card">
 
             <h2>
               Evolução do risco de evasão
@@ -380,7 +424,7 @@ function Dashboard() {
           </div>
 
 
-          <div className="risk-gauge">
+          <div className="risk-gauge-card">
 
             <h2>
               Frequência Geral
@@ -392,18 +436,31 @@ function Dashboard() {
 
                 <RadialBarChart
                   data={frequenciaGauge}
-                  innerRadius="72%"
+                  innerRadius="75%"
                   outerRadius="100%"
                   startAngle={90}
                   endAngle={-270}
-                  barSize={14}
+                  barSize={12}
                 >
 
                   <RadialBar
-                    background={{ fill: "rgba(255,255,255,0.12)" }}
+                    background={{ fill: "#ececf5" }}
                     dataKey="value"
                     cornerRadius={20}
-                    animationDuration={900}
+                    isAnimationActive={true}
+                  />
+
+                  <Tooltip
+                    formatter={() => [
+                      `${dados?.taxaFrequenciaGeral}%`,
+                      "Frequência"
+                    ]}
+                    contentStyle={{
+                      background: "#1f1147",
+                      border: "none",
+                      borderRadius: "10px",
+                      color: "white"
+                    }}
                   />
 
                 </RadialBarChart>
@@ -411,7 +468,7 @@ function Dashboard() {
               </ResponsiveContainer>
 
               <div className="risk-gauge-label">
-                {dados?.taxaFrequenciaGeral}%
+                {gaugeValue} %
               </div>
 
             </div>

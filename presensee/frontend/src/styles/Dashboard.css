@@ -56,13 +56,6 @@
   font-weight: 700;
 }
 
-.dashboard-header p {
-  margin: 5px 0 0;
-  color: #4b25c9;
-  font-size: 19px;
-  font-weight: 700;
-}
-
 
 /* =========================
    AVATAR DO CABEÇALHO
@@ -100,21 +93,35 @@
 
 
 /* =========================
+   TÍTULO DA SEÇÃO
+========================= */
+
+.section-title {
+  text-align: center;
+  color: #4b25c9;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 18px;
+}
+
+
+/* =========================
    CARDS
 ========================= */
 
 .dashboard-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 22px;
   margin-bottom: 26px;
 }
 
 .dashboard-card {
-  min-height: 108px;
-  background: white;
+  min-height: 128px;
+  background: linear-gradient(160deg, #f2eeff 0%, #ffffff 65%);
+  border: 1px solid #e6e0ff;
   border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(75, 37, 201, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,8 +130,23 @@
 }
 
 .dashboard-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.10);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(75, 37, 201, 0.14);
+}
+
+.dashboard-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  background: #e4dbff;
+  color: #4b25c9;
 }
 
 .dashboard-card strong {
@@ -140,40 +162,57 @@
   color: #171717;
 }
 
+.dashboard-card.attention {
+  background: linear-gradient(160deg, #fff6e0 0%, #ffffff 65%);
+  border-color: #ffe6ad;
+}
+
+.dashboard-card.attention .dashboard-card-icon {
+  background: #ffe9b8;
+  color: #b57900;
+}
+
 .dashboard-card.attention strong {
   color: #d99b00;
+}
+
+.dashboard-card.danger {
+  background: linear-gradient(160deg, #ffe9e9 0%, #ffffff 65%);
+  border-color: #ffc9c9;
+}
+
+.dashboard-card.danger .dashboard-card-icon {
+  background: #ffd6d6;
+  color: #a83c3c;
 }
 
 .dashboard-card.danger strong {
   color: #a83c3c;
 }
 
-.dashboard-card.success strong {
-  color: #009b18;
+
+/* =========================
+   LINHA DO GRÁFICO + GAUGE
+========================= */
+
+.dashboard-charts-row {
+  display: flex;
+  gap: 26px;
+  align-items: stretch;
+  margin-bottom: 26px;
 }
 
 
-/* =========================
-   GRÁFICO + GAUGE
-========================= */
+/* GRÁFICO DE LINHA */
 
 .risk-chart-card {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   background: #4320b5;
   border-radius: 18px;
   padding: 24px 28px 30px;
-  margin-bottom: 26px;
   box-sizing: border-box;
   box-shadow: 0 5px 14px rgba(0, 0, 0, 0.14);
-
-  display: flex;
-  gap: 30px;
-  align-items: stretch;
-}
-
-.risk-chart-main {
-  flex: 1;
-  min-width: 0;
 }
 
 .risk-chart-card h2 {
@@ -200,14 +239,33 @@
 }
 
 
-/* GAUGE CIRCULAR */
+/* GAUGE CIRCULAR - CARD BRANCO SEPARADO */
 
-.risk-gauge {
-  width: 220px;
+.risk-gauge-card {
+  width: 260px;
   flex-shrink: 0;
+
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 
   display: flex;
   flex-direction: column;
+
+  transition: 0.2s;
+}
+
+.risk-gauge-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.risk-gauge-card h2 {
+  margin: 0 0 16px;
+  color: #171717;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .risk-gauge-chart {
@@ -215,12 +273,11 @@
   flex: 1;
   min-height: 240px;
 
-  background: #5d48ae;
-  border-radius: 14px;
-
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
 }
 
 .risk-gauge-label {
@@ -229,9 +286,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
-  color: white;
+  color: #171717;
+
+  pointer-events: none;
 }
 
 
@@ -538,7 +597,7 @@
   .dashboard-cards {
 
     grid-template-columns:
-      repeat(2, 1fr);
+      repeat(3, 1fr);
 
   }
 
@@ -548,11 +607,11 @@
 
   }
 
-  .risk-chart-card {
+  .dashboard-charts-row {
     flex-direction: column;
   }
 
-  .risk-gauge {
+  .risk-gauge-card {
     width: 100%;
   }
 
@@ -585,12 +644,6 @@
   .dashboard-header h1 {
 
     font-size: 22px;
-
-  }
-
-  .dashboard-header p {
-
-    font-size: 17px;
 
   }
 
