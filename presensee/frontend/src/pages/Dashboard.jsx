@@ -2,7 +2,18 @@ import DashboardLayout from "../layouts/DashboardLayout"
 import { useEffect, useState } from "react"
 import api from "../services/api"
 import { getUsuario, getToken } from "../services/auth"
-import { MascotAvatar } from "../components/Icons"
+import { MascotAvatar, IconAlunos, IconAlertas } from "../components/Icons"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  RadialBarChart,
+  RadialBar
+} from "recharts"
 
 function Dashboard() {
 
@@ -17,6 +28,8 @@ function Dashboard() {
   const [carregando, setCarregando] = useState(true)
 
   const [erro, setErro] = useState("")
+
+  const [gaugeValue, setGaugeValue] = useState(0)
 
 
   const alertas = [
@@ -58,6 +71,17 @@ function Dashboard() {
       turma: "1A",
       percentual: 30
     }
+
+  ]
+
+
+  const evolucaoRisco = [
+
+    { periodo: "Mar", risco: 22 },
+    { periodo: "Abr", risco: 35 },
+    { periodo: "Mai", risco: 38 },
+    { periodo: "Jun", risco: 58 },
+    { periodo: "Jul", risco: 64 }
 
   ]
 
@@ -126,6 +150,43 @@ function Dashboard() {
   }, [])
 
 
+  // Anima o número do gauge contando de 0 até o valor real
+  useEffect(() => {
+
+    if (dados?.taxaFrequenciaGeral == null) {
+      return
+    }
+
+    const valorFinal = dados.taxaFrequenciaGeral
+
+    let valorAtual = 0
+
+    const duracao = 900
+    const intervaloPasso = 16
+    const totalPassos = duracao / intervaloPasso
+    const incremento = valorFinal / totalPassos
+
+    const timer = setInterval(() => {
+
+      valorAtual += incremento
+
+      if (valorAtual >= valorFinal) {
+
+        valorAtual = valorFinal
+
+        clearInterval(timer)
+
+      }
+
+      setGaugeValue(Math.round(valorAtual))
+
+    }, intervaloPasso)
+
+    return () => clearInterval(timer)
+
+  }, [dados?.taxaFrequenciaGeral])
+
+
   function atualizarAvatar() {
 
     setAvatar(
@@ -171,6 +232,11 @@ function Dashboard() {
   }
 
 
+  const frequenciaGauge = [
+    { value: gaugeValue, fill: "#22c55e" }
+  ]
+
+
   return (
 
     <DashboardLayout>
@@ -214,10 +280,6 @@ function Dashboard() {
                 E aí, {usuario?.nome || "Visitante"}!
               </h1>
 
-              <p>
-                Acompanhamento - Visão Geral
-              </p>
-
             </div>
 
           </div>
@@ -234,6 +296,10 @@ function Dashboard() {
 
           <div className="dashboard-card">
 
+            <div className="dashboard-card-icon">
+              <IconAlunos />
+            </div>
+
             <strong>
               {dados?.totalAlunos}
             </strong>
@@ -246,6 +312,10 @@ function Dashboard() {
 
 
           <div className="dashboard-card attention">
+
+            <div className="dashboard-card-icon">
+              <IconAlertas />
+            </div>
 
             <strong>
               {dados?.alunosRisco}
@@ -260,6 +330,10 @@ function Dashboard() {
 
           <div className="dashboard-card danger">
 
+            <div className="dashboard-card-icon">
+              <IconAlertas />
+            </div>
+
             <strong>
               {dados?.alunosAltoRisco}
             </strong>
@@ -271,90 +345,135 @@ function Dashboard() {
           </div>
 
 
-          <div className="dashboard-card success">
-
-            <strong>
-              {dados?.taxaFrequenciaGeral}%
-            </strong>
-
-            <span>
-              Frequência Geral
-            </span>
-
-          </div>
-
-
         </div>
 
 
         {/* =========================
-            GRÁFICO
+            TÍTULO DA SEÇÃO
         ========================= */}
 
-        <div className="risk-chart-card">
+        <h2 className="section-title">
+          Visão Geral
+        </h2>
 
 
-          <h2>
-            Evolução do risco de evasão
-          </h2>
+        {/* =========================
+            GRÁFICO + GAUGE
+        ========================= */}
+
+        <div className="dashboard-charts-row">
 
 
-          <div className="risk-chart">
+          <div className="risk-chart-card">
 
-            <svg
-              viewBox="0 0 700 220"
-              preserveAspectRatio="none"
-            >
-
-              <polyline
-                points="30,170 170,125 300,120 430,55 570,35"
-                fill="none"
-                stroke="#ffc66d"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+            <h2>
+              Evolução do risco de evasão
+            </h2>
 
 
-              <circle
-                cx="30"
-                cy="170"
-                r="5"
-                fill="#ffc66d"
-              />
+            <div className="risk-chart">
 
-              <circle
-                cx="170"
-                cy="125"
-                r="5"
-                fill="#ffc66d"
-              />
+              <ResponsiveContainer width="100%" height="100%">
 
-              <circle
-                cx="300"
-                cy="120"
-                r="5"
-                fill="#ffc66d"
-              />
+                <LineChart data={evolucaoRisco}>
 
-              <circle
-                cx="430"
-                cy="55"
-                r="5"
-                fill="#ffc66d"
-              />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(255, 255, 255, 0.15)"
+                    vertical={false}
+                  />
 
-              <circle
-                cx="570"
-                cy="35"
-                r="5"
-                fill="#ffc66d"
-              />
+                  <XAxis
+                    dataKey="periodo"
+                    stroke="rgba(255, 255, 255, 0.65)"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
 
-            </svg>
+                  <YAxis hide />
+
+                  <Tooltip
+                    formatter={(value) => [`${value}%`, "Risco"]}
+                    contentStyle={{
+                      background: "#2a1b6b",
+                      border: "none",
+                      borderRadius: "10px",
+                      color: "white"
+                    }}
+                    labelStyle={{ color: "#ffc66d", fontWeight: "bold" }}
+                    cursor={{ stroke: "rgba(255,255,255,0.2)" }}
+                  />
+
+                  <Line
+                    type="monotone"
+                    dataKey="risco"
+                    stroke="#ffc66d"
+                    strokeWidth={3}
+                    dot={{ fill: "#ffc66d", r: 5 }}
+                    activeDot={{ r: 7 }}
+                    animationDuration={900}
+                  />
+
+                </LineChart>
+
+              </ResponsiveContainer>
+
+            </div>
 
           </div>
 
+
+          <div className="risk-gauge-card">
+
+            <h2>
+              Frequência Geral
+            </h2>
+
+            <div className="risk-gauge-chart">
+
+              <ResponsiveContainer width="100%" height="100%">
+
+                <RadialBarChart
+                  data={frequenciaGauge}
+                  innerRadius="75%"
+                  outerRadius="100%"
+                  startAngle={90}
+                  endAngle={-270}
+                  barSize={12}
+                >
+
+                  <RadialBar
+                    background={{ fill: "#ececf5" }}
+                    dataKey="value"
+                    cornerRadius={20}
+                    isAnimationActive={true}
+                  />
+
+                  <Tooltip
+                    formatter={() => [
+                      `${dados?.taxaFrequenciaGeral}%`,
+                      "Frequência"
+                    ]}
+                    contentStyle={{
+                      background: "#1f1147",
+                      border: "none",
+                      borderRadius: "10px",
+                      color: "white"
+                    }}
+                  />
+
+                </RadialBarChart>
+
+              </ResponsiveContainer>
+
+              <div className="risk-gauge-label">
+                {gaugeValue} %
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 

@@ -78,7 +78,7 @@ function Login() {
       {/* LOGO */}
       <div className="login-topbar">
         <span className="login-ring-deco" />
-        <h2 className="brand-font login-logo">
+        <h2 className="brand-font login-logo"translate="no">
           Presen<span>See</span>
         </h2>
       </div>

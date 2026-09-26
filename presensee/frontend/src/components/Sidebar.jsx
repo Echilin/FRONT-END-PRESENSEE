@@ -80,7 +80,7 @@ function Sidebar() {
 
         <div className="sidebar-logo">
           {!collapsed && (
-            <h2 className="brand-font">
+            <h2 className="brand-font"translate="no">
               Presen<span>See</span>
             </h2>
           )}
