@@ -3,6 +3,17 @@ import { useEffect, useState } from "react"
 import api from "../services/api"
 import { getUsuario, getToken } from "../services/auth"
 import { MascotAvatar } from "../components/Icons"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  RadialBarChart,
+  RadialBar
+} from "recharts"
 
 function Dashboard() {
 
@@ -58,6 +69,17 @@ function Dashboard() {
       turma: "1A",
       percentual: 30
     }
+
+  ]
+
+
+  const evolucaoRisco = [
+
+    { periodo: "Mar", risco: 22 },
+    { periodo: "Abr", risco: 35 },
+    { periodo: "Mai", risco: 38 },
+    { periodo: "Jun", risco: 58 },
+    { periodo: "Jul", risco: 64 }
 
   ]
 
@@ -169,6 +191,11 @@ function Dashboard() {
     )
 
   }
+
+
+  const frequenciaGauge = [
+    { value: dados?.taxaFrequenciaGeral || 0, fill: "#ffc66d" }
+  ]
 
 
   return (
@@ -288,73 +315,108 @@ function Dashboard() {
 
 
         {/* =========================
-            GRÁFICO
+            GRÁFICO + GAUGE
         ========================= */}
 
         <div className="risk-chart-card">
 
+          <div className="risk-chart-main">
 
-          <h2>
-            Evolução do risco de evasão
-          </h2>
-
-
-          <div className="risk-chart">
-
-            <svg
-              viewBox="0 0 700 220"
-              preserveAspectRatio="none"
-            >
-
-              <polyline
-                points="30,170 170,125 300,120 430,55 570,35"
-                fill="none"
-                stroke="#ffc66d"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+            <h2>
+              Evolução do risco de evasão
+            </h2>
 
 
-              <circle
-                cx="30"
-                cy="170"
-                r="5"
-                fill="#ffc66d"
-              />
+            <div className="risk-chart">
 
-              <circle
-                cx="170"
-                cy="125"
-                r="5"
-                fill="#ffc66d"
-              />
+              <ResponsiveContainer width="100%" height="100%">
 
-              <circle
-                cx="300"
-                cy="120"
-                r="5"
-                fill="#ffc66d"
-              />
+                <LineChart data={evolucaoRisco}>
 
-              <circle
-                cx="430"
-                cy="55"
-                r="5"
-                fill="#ffc66d"
-              />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(255, 255, 255, 0.15)"
+                    vertical={false}
+                  />
 
-              <circle
-                cx="570"
-                cy="35"
-                r="5"
-                fill="#ffc66d"
-              />
+                  <XAxis
+                    dataKey="periodo"
+                    stroke="rgba(255, 255, 255, 0.65)"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
 
-            </svg>
+                  <YAxis hide />
+
+                  <Tooltip
+                    formatter={(value) => [`${value}%`, "Risco"]}
+                    contentStyle={{
+                      background: "#2a1b6b",
+                      border: "none",
+                      borderRadius: "10px",
+                      color: "white"
+                    }}
+                    labelStyle={{ color: "#ffc66d", fontWeight: "bold" }}
+                    cursor={{ stroke: "rgba(255,255,255,0.2)" }}
+                  />
+
+                  <Line
+                    type="monotone"
+                    dataKey="risco"
+                    stroke="#ffc66d"
+                    strokeWidth={3}
+                    dot={{ fill: "#ffc66d", r: 5 }}
+                    activeDot={{ r: 7 }}
+                    animationDuration={900}
+                  />
+
+                </LineChart>
+
+              </ResponsiveContainer>
+
+            </div>
 
           </div>
 
+
+          <div className="risk-gauge">
+
+            <h2>
+              Frequência Geral
+            </h2>
+
+            <div className="risk-gauge-chart">
+
+              <ResponsiveContainer width="100%" height="100%">
+
+                <RadialBarChart
+                  data={frequenciaGauge}
+                  innerRadius="72%"
+                  outerRadius="100%"
+                  startAngle={90}
+                  endAngle={-270}
+                  barSize={14}
+                >
+
+                  <RadialBar
+                    background={{ fill: "rgba(255,255,255,0.12)" }}
+                    dataKey="value"
+                    cornerRadius={20}
+                    animationDuration={900}
+                  />
+
+                </RadialBarChart>
+
+              </ResponsiveContainer>
+
+              <div className="risk-gauge-label">
+                {dados?.taxaFrequenciaGeral}%
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 

@@ -1,5 +1,3 @@
-
-
 .layout {
 
   display: flex;
@@ -9,13 +7,6 @@
   background: #f7f7fb;
 
 }
-
-
-
-
-
-
-
 
 
 .content {
@@ -31,10 +22,7 @@
 }
 
 
-
-.dashboard-page 
-
-  {
+.dashboard-page {
   width: 100%;
   max-width: 1500px;
   margin: 0 auto;
@@ -45,44 +33,69 @@
 }
 
 
-
-
 /* =========================
    CABEÇALHO
 ========================= */
 
 .dashboard-header {
-
   display: flex;
-
   align-items: center;
+  margin-bottom: 26px;
+}
 
-  margin-bottom: 22px;
-
+.dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .dashboard-header h1 {
-
   margin: 0;
-
   color: #111111;
-
-  font-size: 25px;
-
+  font-size: 30px;
   font-weight: 700;
-
 }
 
 .dashboard-header p {
-
   margin: 5px 0 0;
-
   color: #4b25c9;
-
   font-size: 19px;
-
   font-weight: 700;
+}
 
+
+/* =========================
+   AVATAR DO CABEÇALHO
+========================= */
+
+.dashboard-avatar {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+
+  background: #6651cf;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+
+  overflow: hidden;
+
+  flex-shrink: 0;
+
+  cursor: pointer;
+}
+
+.dashboard-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
 }
 
 
@@ -91,155 +104,134 @@
 ========================= */
 
 .dashboard-cards {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 18px;
-
-  margin-bottom: 18px;
-
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-bottom: 26px;
 }
 
 .dashboard-card {
-
-  min-height: 86px;
-
+  min-height: 108px;
   background: white;
-
-  border-radius: 15px;
-
-  box-shadow:
-    0 4px 14px
-    rgba(0, 0, 0, 0.08);
-
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
   transition: 0.2s;
-
 }
 
 .dashboard-card:hover {
-
   transform: translateY(-2px);
-
-  box-shadow:
-    0 7px 18px
-    rgba(0, 0, 0, 0.10);
-
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.10);
 }
 
 .dashboard-card strong {
-
-  font-size: 27px;
-
+  font-size: 32px;
   line-height: 1;
-
   color: #4b25c9;
-
 }
 
 .dashboard-card span {
-
-  margin-top: 8px;
-
-  font-size: 12px;
-
+  margin-top: 10px;
+  font-size: 13px;
   font-weight: 700;
-
   color: #171717;
-
 }
 
 .dashboard-card.attention strong {
-
   color: #d99b00;
-
 }
 
 .dashboard-card.danger strong {
-
   color: #a83c3c;
-
 }
 
 .dashboard-card.success strong {
-
   color: #009b18;
-
 }
 
 
 /* =========================
-   GRÁFICO
+   GRÁFICO + GAUGE
 ========================= */
 
 .risk-chart-card {
-
   width: 100%;
-
   background: #4320b5;
-
-  border-radius: 15px;
-
-  padding: 12px 20px 20px;
-
-  margin-bottom: 18px;
-
+  border-radius: 18px;
+  padding: 24px 28px 30px;
+  margin-bottom: 26px;
   box-sizing: border-box;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.14);
 
-  box-shadow:
-    0 5px 14px
-    rgba(0, 0, 0, 0.14);
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+}
 
+.risk-chart-main {
+  flex: 1;
+  min-width: 0;
 }
 
 .risk-chart-card h2 {
-
-  margin: 0 0 8px;
-
+  margin: 0 0 16px;
   color: white;
-
-  font-size: 14px;
-
+  font-size: 16px;
   font-weight: 700;
-
 }
 
 .risk-chart {
-
   width: 100%;
-
-  height: 160px;
-
+  height: 300px;
   background: #5d48ae;
-
-  border-radius: 11px;
-
+  border-radius: 14px;
   overflow: hidden;
-
-  padding: 5px 12px;
-
+  padding: 10px 16px;
   box-sizing: border-box;
-
 }
 
 .risk-chart svg {
-
   width: 100%;
-
   height: 100%;
-
   display: block;
+}
 
+
+/* GAUGE CIRCULAR */
+
+.risk-gauge {
+  width: 220px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.risk-gauge-chart {
+  position: relative;
+  flex: 1;
+  min-height: 240px;
+
+  background: #5d48ae;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.risk-gauge-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
 }
 
 
@@ -556,16 +548,22 @@
 
   }
 
+  .risk-chart-card {
+    flex-direction: column;
+  }
+
+  .risk-gauge {
+    width: 100%;
+  }
+
+  .risk-gauge-chart {
+    min-height: 200px;
+  }
+
 }
 
 
 @media (max-width: 900px) {
-
-  .sidebar {
-
-    width: 200px;
-
-  }
 
   .content {
 
@@ -596,9 +594,17 @@
 
   }
 
+  .dashboard-avatar {
+
+    width: 42px;
+
+    height: 42px;
+
+  }
+
   .risk-chart {
 
-    height: 140px;
+    height: 200px;
 
   }
 
@@ -608,85 +614,4 @@
 
   }
 
-}
-
-/* =========================
-   USUÁRIO NO TOPO
-========================= */
-
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
-}
-
-.dashboard-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  cursor: pointer;
-
-  padding: 5px 8px;
-
-  border-radius: 10px;
-
-  transition: 0.2s;
-}
-
-.dashboard-user:hover {
-  background: #f0edff;
-}
-
-.dashboard-avatar {
-  width: 42px;
-  height: 42px;
-
-  border-radius: 50%;
-
-  background: #6651cf;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 20px;
-
-  overflow: hidden;
-
-  flex-shrink: 0;
-}
-
-.dashboard-avatar img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-}
-
-.dashboard-user-info {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-
-  min-width: 80px;
-}
-
-.dashboard-user-info strong {
-  color: #222;
-
-  font-size: 12px;
-
-  font-weight: 700;
-}
-
-.dashboard-user-info span {
-  color: #777;
-
-  font-size: 10px;
 }
