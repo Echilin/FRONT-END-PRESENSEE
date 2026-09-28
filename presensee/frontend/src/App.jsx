@@ -8,6 +8,8 @@ import Frequencia from "./pages/Frequencia"
 import Relatorios from "./pages/Relatorios"
 import Turmas from "./pages/Turmas"
 import NovoAluno from "./pages/NovoAluno"
+import Diario from "./pages/Diario"
+import AlunoPerfil from "./pages/AlunoPerfil"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -89,6 +91,26 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+      <Route
+          path="/diario"
+          element={
+            <ProtectedRoute>
+              <Diario />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/diario/aluno/:id"
+          element={
+            <ProtectedRoute>
+              <AlunoPerfil />
+            </ProtectedRoute>
+          }
+        />
+
 
       </Routes>
 
