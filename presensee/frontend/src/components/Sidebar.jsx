@@ -21,7 +21,7 @@ const MENU = [
   { to: "/dashboard", label: "Home", Icon: IconHome },
   { to: "/alunos", label: "Alunos", Icon: IconAlunos },
   { to: "/alertas", label: "Alertas", Icon: IconAlertas },
-  { to: "/frequencia", label: "Diário do monitor", Icon: IconDiario },
+  { to: "/diario", label: "Diário do monitor", Icon: IconDiario },
   { to: "/novo-aluno", label: "Intervenção", Icon: IconIntervencao },
   { to: "/turmas", label: "Turma", Icon: IconTurma },
   { to: "/relatorios", label: "Relatório", Icon: IconRelatorio },
