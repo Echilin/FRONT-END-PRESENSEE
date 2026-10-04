@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 import Login from "./pages/Login"
+import Welcome from "./pages/Welcome"
+import CadastroEscola from "./pages/CadastroEscola"
 import Dashboard from "./pages/Dashboard"
 import Alunos from "./pages/Alunos"
 import Alertas from "./pages/Alertas"
@@ -8,6 +10,8 @@ import Frequencia from "./pages/Frequencia"
 import Relatorios from "./pages/Relatorios"
 import Turmas from "./pages/Turmas"
 import NovoAluno from "./pages/NovoAluno"
+import Diario from "./pages/Diario"
+import AlunoPerfil from "./pages/AlunoPerfil"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -18,9 +22,14 @@ function App() {
      <Routes>
 
   <Route
-    path="/"
-    element={<Navigate to="/login" replace />}
-  />
+  path="/"
+  element={<Welcome />}
+/>
+
+<Route
+  path="/interno/nova-escola"
+  element={<CadastroEscola />}
+/>
 
   <Route
     path="/login"
@@ -89,6 +98,26 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+      <Route
+          path="/diario"
+          element={
+            <ProtectedRoute>
+              <Diario />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/diario/aluno/:id"
+          element={
+            <ProtectedRoute>
+              <AlunoPerfil />
+            </ProtectedRoute>
+          }
+        />
+
 
       </Routes>
 
