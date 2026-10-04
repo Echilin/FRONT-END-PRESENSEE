@@ -668,3 +668,125 @@
   }
 
 }
+/* =========================
+   MODO ESCURO — Dashboard
+========================= */
+
+[data-theme="dark"] .layout {
+  background: #0b1220;
+}
+
+[data-theme="dark"] .dashboard-header h1 {
+  color: #e8edf5;
+}
+
+[data-theme="dark"] .section-title {
+  color: #22d3c5;
+}
+
+/* CARDS */
+
+[data-theme="dark"] .dashboard-card {
+  background: linear-gradient(160deg, #141b2d 0%, #0f1626 65%);
+  border-color: #22304a;
+}
+
+[data-theme="dark"] .dashboard-card-icon {
+  background: rgba(34, 211, 197, 0.15);
+  color: #22d3c5;
+}
+
+[data-theme="dark"] .dashboard-card strong {
+  color: #22d3c5;
+}
+
+[data-theme="dark"] .dashboard-card span {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .dashboard-card.attention {
+  background: linear-gradient(160deg, #241d0f 0%, #141626 65%);
+  border-color: #3a2f12;
+}
+
+[data-theme="dark"] .dashboard-card.attention .dashboard-card-icon {
+  background: rgba(253, 203, 110, 0.15);
+  color: #fdcb6e;
+}
+
+[data-theme="dark"] .dashboard-card.attention strong {
+  color: #fdcb6e;
+}
+
+[data-theme="dark"] .dashboard-card.danger {
+  background: linear-gradient(160deg, #2a1414 0%, #141626 65%);
+  border-color: #3a1818;
+}
+
+[data-theme="dark"] .dashboard-card.danger .dashboard-card-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+[data-theme="dark"] .dashboard-card.danger strong {
+  color: #ef4444;
+}
+
+/* GRÁFICO DE LINHA */
+
+[data-theme="dark"] .risk-chart-card {
+  background: #0f2733;
+}
+
+[data-theme="dark"] .risk-chart {
+  background: #123240;
+}
+
+/* GAUGE */
+
+[data-theme="dark"] .risk-gauge-card {
+  background: #141b2d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .risk-gauge-card h2 {
+  color: #e8edf5;
+}
+
+[data-theme="dark"] .risk-gauge-label {
+  color: #e8edf5;
+}
+
+/* MINI GRÁFICOS */
+
+[data-theme="dark"] .mini-chart-card {
+  background: #141b2d;
+}
+
+[data-theme="dark"] .mini-chart-card h2 {
+  color: #e8edf5;
+}
+
+/* PARTE INFERIOR */
+
+[data-theme="dark"] .attention-card,
+[data-theme="dark"] .class-risk-card {
+  background: #141b2d;
+}
+
+[data-theme="dark"] .attention-card h2,
+[data-theme="dark"] .class-risk-card h2 {
+  color: #e8edf5;
+}
+
+[data-theme="dark"] .attention-item {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .class-risk-item > span {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .risk-bar {
+  background: #22304a;
+}
